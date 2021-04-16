@@ -23,15 +23,15 @@ exports.createUser = asyncHandler(async (req, res, next) => {
 
 //-------------------Display all students
 
-exports.getuser = asyncHandler(async (req, res, next) => {
-    const user = await user.find({});
+// exports.getuser = asyncHandler(async (req, res, next) => {
+//     const user = await user.find({});
   
-    res.status(201).json({
-      success: true,
-      count: students.length,
-      data: user,
-    });
-  });
+//     res.status(201).json({
+//       success: true,
+//       count: students.length,
+//       data: user,
+//     });
+//   });
 
   // -----------------FIND Student BY ID-------------------
 

@@ -6,6 +6,9 @@ const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const path = require("path");
 const colors = require("colors");
+const cartRouter=require('./routes/cart')
+const auth2=require('./routes/auth')
+
 const errorHandler = require("./middleware/customizederror");
 
 dotenv.config({
@@ -18,7 +21,7 @@ connectDB();
 // Load routes files
 const auth = require("./routes/auth");
 const user = require("./routes/user");
-const newsfeed = require("./routes/newsfeed");
+const camera = require("./routes/newsfeed");
 const { urlencoded } = require("express");
 
 // initialize out app variable with express
@@ -43,7 +46,9 @@ app.use(express.static(path.join(__dirname, "public")));
 // Mount routes
 app.use("/auth", auth);
 app.use("/user", user)
-app.use("/newsfeed", newsfeed);
+app.use("/cameras", camera);
+app.use("/cart",auth2,cartRouter);
+
 
 // To use the custom error message
 app.use(errorHandler);

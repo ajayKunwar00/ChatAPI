@@ -15,19 +15,18 @@ const {
 
   const { protect } = require("../middleware/auth");
 
-  router
-  .route("/")
-  .get(protect,getuser)
-  .post(protect,createUser);
+  // router
+  // .route("/")
+  // .post(protect,createUser);
 
-//   router
-//   .route("/:id/photo")
-//   .put(protect, StudentPhotoUpload);
+  // router
+  // .route("/:id/photo")
+  // .put(protect, StudentPhotoUpload);
 
-  router
-  .route("/:id")
-  .get(protect,getuserById)
-  .delete(protect, deleteUser);
+  // router
+  // .route("/:id")
+  // .get(protect,getuserById)
+  // .delete(protect, deleteUser);
 
 
   module.exports = router
