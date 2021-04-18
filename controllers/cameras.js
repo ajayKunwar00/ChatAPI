@@ -1,5 +1,5 @@
 const ErrorResponse = require("../utils/errorResponse");
-const Newsfeed = require('../model/newsfeed');
+const Cameras = require('../model/cameras');
 const asyncHandler = require("../middleware/async")
 //To get the file name extension line .jpg,.png
 const path = require("path");
@@ -7,44 +7,44 @@ const path = require("path");
 
 //--------------------CREATE Newsfeed------------------
 
-exports.createnewsfeed = asyncHandler(async (req, res, next) => {
+exports.addcamera = asyncHandler(async (req, res, next) => {
 
-  const newsfeed = await Newsfeed.create(req.body);
+  const cameras = await Cameras.create(req.body);
 
-  if (!newsfeed) {
-    return next(new ErrorResponse("Error adding newsfeed"), 404);
+  if (!cameras) {
+    return next(new ErrorResponse("Error adding cameras"), 404);
   }
 
   res.status(201).json({
     success: true,
-    data: newsfeed,
+    data: cameras,
   });
 });
 
 //-------------------Display all newsfeed
 
-exports.getnewsfeed = asyncHandler(async (req, res, next) => {
-    const newsfeed = await Newsfeed.find({});
+exports.getcamera = asyncHandler(async (req, res, next) => {
+    const cameras = await Cameras.find({});
   
     res.status(201).json({
       success: true,
-      count: newsfeed.length,
-      data: newsfeed,
+      count: cameras.length,
+      data: cameras,
     });
   });
 
   // -----------------FIND Newsfeed BY ID-------------------
 
-exports.getnewsfeedById = asyncHandler(async (req, res, next) => {
-    const newsfeed = await Newsfeed.findById(req.params.id);
+exports.getcameraById = asyncHandler(async (req, res, next) => {
+    const cameras = await Cameras.findById(req.params.id);
   
-    if (!newsfeed) {
+    if (!cameras) {
       return next(new ErrorResponse("user not found"), 404);
     }
   
     res.status(200).json({
       success: true,
-      data: newsfeed,
+      data: cameras,
     });
   });
 
@@ -52,12 +52,12 @@ exports.getnewsfeedById = asyncHandler(async (req, res, next) => {
 
   // ------------------UPLOAD IMAGE-----------------------
 
-exports.NewsfeedUploadPhoto = asyncHandler(async (req, res, next) => {
-    const newsfeed = await Newsfeed.findById(req.params.id);
+exports.CameraUploadPhoto = asyncHandler(async (req, res, next) => {
+    const cameras = await Cameras.findById(req.params.id);
   
-    console.log(newsfeed);
-    if (!newsfeed) {
-      return next(new ErrorResponse(`No Newsfeed found with ${req.params.id}`), 404);
+    console.log(cameras);
+    if (!cameras) {
+      return next(new ErrorResponse(`No Camera found with ${req.params.id}`), 404);
     }
   
   
@@ -82,7 +82,7 @@ exports.NewsfeedUploadPhoto = asyncHandler(async (req, res, next) => {
       );
     }
   
-    file.name = `photo_${newsfeed.id}${path.parse(file.name).ext}`;
+    file.name = `photo_${cameras.id}${path.parse(file.name).ext}`;
   
     file.mv(`${process.env.FILE_UPLOAD_PATH}/${file.name}`, async (err) => {
       if (err) {
@@ -91,7 +91,7 @@ exports.NewsfeedUploadPhoto = asyncHandler(async (req, res, next) => {
       }
   
       //insert the filename into database
-      await Newsfeed.findByIdAndUpdate(req.params.id, {
+      await Cameras.findByIdAndUpdate(req.params.id, {
         photo: file.name,
       });
     });

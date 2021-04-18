@@ -1,13 +1,21 @@
 const mongoose = require("mongoose");
 
-const Newsfeed = new mongoose.Schema(
+const Cameras = new mongoose.Schema(
     {
-        caption:{
+        productname:{
             type: String,
             required: [true,"Enter title"],
             
         },
-        title:{
+        price:{
+            type: String,
+            required: [true,"Enter title"],
+        },
+        description:{
+            type: String,
+            required: [true,"Enter title"],
+        },
+        company:{
             type: String,
             required: [true,"Enter title"],
         },
@@ -22,4 +30,4 @@ const Newsfeed = new mongoose.Schema(
     }
 );
 
-module.exports = mongoose.model("Newsfeed",Newsfeed);
+module.exports = mongoose.model("Cameras",Cameras);

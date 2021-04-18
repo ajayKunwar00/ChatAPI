@@ -5,11 +5,12 @@ const fileupload = require("express-fileupload");
 const connectDB = require("./config/db");
 const cookieParser = require("cookie-parser");
 const path = require("path");
-const colors = require("colors");
-const cartRouter=require('./routes/cart')
-const auth2=require('./routes/auth')
-
 const errorHandler = require("./middleware/customizederror");
+const cors = require('cors')
+const colors = require("colors");
+
+
+
 
 dotenv.config({
     path: "./config/config.env",
@@ -20,8 +21,8 @@ connectDB();
 
 // Load routes files
 const auth = require("./routes/auth");
-const user = require("./routes/user");
-const camera = require("./routes/newsfeed");
+const camera = require("./routes/cameras");
+const cart = require("./routes/cart");
 const { urlencoded } = require("express");
 
 // initialize out app variable with express
@@ -31,6 +32,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({urlencoded:true}))
 app.use(cookieParser());
+app.use(cors())
 
 // i want this only to run during development process not in production mode
 if (process.env.NODE_ENV.trim() === "development") {
@@ -44,11 +46,9 @@ app.use(fileupload());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Mount routes
-app.use("/auth", auth);
-app.use("/user", user)
-app.use("/cameras", camera);
-app.use("/cart",auth2,cartRouter);
-
+app.use(auth);
+app.use(camera);
+app.use(cart);
 
 // To use the custom error message
 app.use(errorHandler);
